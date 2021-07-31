@@ -27,7 +27,7 @@ def collectcsv():
 
 def generateasm(serialised):
     asm = ""
-    asm = asm + "section .text"
+    asm = asm + "section .text\n"
     globalsstring = ""
     functionstring = ""
     systemdefinitions = list() 
@@ -42,7 +42,7 @@ def generateasm(serialised):
             for z in serialised[x][y]:
                 globalsstring = globalsstring + "\nglobal " + z
                 functionstring = functionstring + "\n" + z + ":\n" + SYSCALLSTRING_A + str(serialised[x][y][z]) + SYSCALLSTRING_B 
-            asm = asm + globalsstring + "\n" + functionstring + "%endif"
+            asm = asm + globalsstring + "\n" + functionstring + "%endif\n"
     return (asm, systemdefinitions)
 
 # Create makefile for code
@@ -63,6 +63,12 @@ def testenvironment():
         quit()
     return
 
+# Output file function
+
+def writefile(string, filename):
+    file = open(filename, "w")
+    n = file.write(string)
+    file.close()
 
 # Main function
 
@@ -70,9 +76,9 @@ def main():
     testenvironment()
     data = collectcsv()
     asm, sysdefs = generateasm(data)
+    writefile(asm, "syscalls.asm")
     make = generatemake(sysdefs)
-    print(asm)
-    print(make)
+    writefile(make, "Makefile")
 
 
 # Start as module
