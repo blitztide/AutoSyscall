@@ -62,3 +62,5 @@ _10_2004:
 	$(ASM_CC) -f win64 -D _10_2004 syscalls.asm -o syscalls.lib
 _10_20H2:
 	$(ASM_CC) -f win64 -D _10_20H2 syscalls.asm -o syscalls.lib
+injector:
+	$(CC) main.c -o $(OUTFILE) -L./ -lsyscalls

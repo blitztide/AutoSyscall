@@ -51,6 +51,7 @@ def generatemake(sysdefs):
     make = "CC=x86_64-w64-mingw32-gcc\nASM_CC=nasm\nOUTFILE=defensiveinjector.exe\n\n"
     for system in sysdefs:
         make = make + system + ":\n\t$(ASM_CC) -f win64 -D " + system + " syscalls.asm -o syscalls.lib\n"
+    make = make + "injector:\n\t$(CC) main.c -o $(OUTFILE) -L./ -lsyscalls\n"
     return make
 
 
