@@ -11,6 +11,7 @@ git clone https://github.com/bats3c/DefensiveInjector
 cd DefensiveInjector
 python generate.py
 make _XP_SP2
+make injector
 ```
 The _XP_SP2 value is the define string for the shellcode.asm file, this will target specific versions of windows.
 
