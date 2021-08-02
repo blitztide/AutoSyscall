@@ -12,7 +12,7 @@ import urllib.request
 URL_SYSCALL = "https://raw.githubusercontent.com/j00ru/windows-syscalls/master/x64/json/nt-per-system.json"
 ASM_HEADER = "section .text\n%macro makesyscall 2\nglobal %1\n%1:\n\tmov r10,rcx\n\tmov eax,%2\n\tsyscall\n\tret\n%endmacro\n"
 ASM_DEF_START = "%ifdef " 
-ASM_MACRO_SYSCALL = "\nmakesyscall {0}, 0x{1}" # Format string
+ASM_MACRO_SYSCALL = "\nmakesyscall {0}, {1}" # Format string
 ASM_DEF_END = "\n%endif\n\n"#
 MAKE_HEADER = "CC=x86_64-w64-mingw32-gcc\nASM_CC=nasm\nOUTFILE=defensiveinjector.exe\n\n"
 MAKE_SYSTEM = "{0}:\n\t$(ASM_CC) -f win64 -D{0} syscalls.asm -o syscalls.lib\n"
@@ -75,7 +75,7 @@ def generateasm(data):
             systemdefinitions.append(system_definition)
             asm = asm + ASM_DEF_START + system_definition
             for SYSCALL in data[OS][VERSION]:
-                asm = asm + ASM_MACRO_SYSCALL.format(SYSCALL,data[OS][VERSION][SYSCALL])
+                asm = asm + ASM_MACRO_SYSCALL.format(SYSCALL,hex(data[OS][VERSION][SYSCALL]))
             asm = asm + ASM_DEF_END
     return (asm, systemdefinitions)
 
