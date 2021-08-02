@@ -1,16 +1,18 @@
 # AutoSyscall
 
-The code for the shellcode injector from my blog post.
+This library builds and makes a shellcode injector for all versions of Windows using raw syscalls.
 
-This code is a PoC and will probably only run of windows 10 x64 version 1909, this is because of the syscall numbers changing between versions. To fix, change the syscall number of line 16 in `syscalls.asm` with the corresponding number for that windows version. They can be found [here](https://j00ru.vexillium.org/syscalls/nt/64/).
+This code is a PoC and has only been tested windows 10 x64 version 1909, this is because of the syscall numbers changing between versions, the values can be found [here](https://j00ru.vexillium.org/syscalls/nt/64/).
 
 ## Install & Build
 
 ```
 git clone https://github.com/bats3c/DefensiveInjector
 cd DefensiveInjector
-make
+python generate.py
+make _XP_SP2
 ```
+The _XP_SP2 value is the define string for the shellcode.asm file, this will target specific versions of windows.
 
 ## Using different shellcode
 
