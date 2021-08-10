@@ -18,6 +18,14 @@ MAKE_HEADER = "CC=x86_64-w64-mingw32-gcc\nASM_CC=nasm\nOUTFILE=defensiveinjector
 MAKE_SYSTEM = "{0}:\n\t$(ASM_CC) -f win64 -D{0} syscalls.asm -o syscalls.lib\n"
 MAKE_FOOTER = "injector:\n\t$(CC) main.c -o $(OUTFILE) -L./ -lsyscalls\n"
 SYSTEM_DEF = "{}_{}"
+HEADER = """  ___        _        _____                     _ _ 
+ / _ \      | |      /  ___|                   | | |
+/ /_\ \_   _| |_ ___ \ `--. _   _ ___  ___ __ _| | |
+|  _  | | | | __/ _ \ `--. \ | | / __|/ __/ _` | | |
+| | | | |_| | || (_) /\__/ / |_| \__ \ (_| (_| | | |
+\_| |_/\__,_|\__\___/\____/ \__, |___/\___\__,_|_|_|
+                             __/ |                  
+                            |___/                   """
 
 # Request latest x64 data from github as JSON
 
@@ -29,28 +37,14 @@ def collectjson():
     return json.loads(data)
 
 
-# Collect all exposed syscalls
+# Function to print all OS versions in a python list
 
-def collectsyscalls(data):
-    # Collects all found items into list
-    syscalls = list()
-    for OS in data:
-        for VERSION in data[OS]:
-            for SYSCALL in data[OS][VERSION]:
-                if not syscalls.contains(SYSCALL[0]):
-                    syscalls.append(SYSCALL[0])
-    return syscalls.sort()
-
-
-# Function to collect all OS versions in a python list
-
-def collectsystems(data):
+def printsystems(data):
     # Systems object is a list of tuples to allow easier indexing later.
-    systems = list()
     for OS in data:
         for VERSION in data[OS]:
-            systems.append((OS, VERSION))
-    return systems
+            print("Found System", OS + VERSION)
+    return
 
 
 # String prettifying routine for system definitions
@@ -111,13 +105,17 @@ def writefile(string, filename):
 # Main function
 
 def main():
+    print(HEADER)
     testenvironment()
+    print("Collecting raw syscall data")
     data = collectjson()
+    printsystems(data)
+    print("Generating ASM")
     asm, sysdefs = generateasm(data)
     writefile(asm, "syscalls.asm")
+    print("Generating Makefile")
     make = generatemake(sysdefs)
     writefile(make, "Makefile")
-
 
 # Start as module
 
