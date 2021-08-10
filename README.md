@@ -1,6 +1,6 @@
 # AutoSyscall
 
-![Screenshot](https://raw.githubusercontent.com/blitztide/AutoSyscall/Images/AutoSyscall.png)
+![Screenshot](https://raw.githubusercontent.com/blitztide/AutoSyscall/master/Images/AutoSyscall.png)
 
 This library builds and makes a shellcode injector for all versions of Windows using raw syscalls.
 
