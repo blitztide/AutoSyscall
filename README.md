@@ -1,5 +1,7 @@
 # AutoSyscall
 
+![Screenshot](https://raw.githubusercontent.com/blitztide/AutoSyscall/Images/AutoSyscall.png)
+
 This library builds and makes a shellcode injector for all versions of Windows using raw syscalls.
 
 This code is a PoC and has only been tested windows 10 x64 version 1909, this is because of the syscall numbers changing between versions, the values can be found [here](https://j00ru.vexillium.org/syscalls/nt/64/).
